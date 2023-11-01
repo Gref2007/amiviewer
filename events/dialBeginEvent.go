@@ -30,5 +30,9 @@ func (de DialBeginEvent) Draw(ev EventEmptyInterface, currentState *draw.Current
 
 	currentState.Channels = append(currentState.Channels, dialevent.DestChannel)
 
-	return draw.DrawAction{}, nil
+	return draw.DrawAction{
+		Type:          "DialBeginEvent",
+		DateTime:      dialevent.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
+		CreateChannel: []string{dialevent.DestChannel},
+	}, nil
 }
