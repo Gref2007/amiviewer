@@ -1,13 +1,27 @@
 package main
 
 import (
-	"amiViewer/amiCoreProcessor"
+	"amiViewer/api"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
+var (
+	router api.Router = *api.NewRouter()
 )
 
 func main() {
 
-	var processor = amiCoreProcessor.NewAmiProcessor()
-	processor.RegisterEventProcessor()
-	processor.GetEventsHistory("example.astl")
+	r := gin.Default()
+	router.SetupRoute(r)
+
+	//TODO Удалить
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+	})
+	r.Run()
 
 }
