@@ -1,5 +1,5 @@
-
 const path = require("path");
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 let mode = 'development'; // По умолчанию режим development
 if (process.env.NODE_ENV === 'production') { // Режим production, если 
@@ -41,5 +41,11 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'src','views', 'index.html'),
+            filename: 'index.html',
+          }),        
+      ]
 }
