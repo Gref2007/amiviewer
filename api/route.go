@@ -20,7 +20,7 @@ func (r *Router) SetupRoute(g *gin.Engine) {
 	api := g.Group("/api")
 	{
 		v1 := api.Group("/v1")
-		v1.GET("draw", drawController.GetDraw)
+		v1.POST("draw", drawController.GetDraw)
 	}
 
 }

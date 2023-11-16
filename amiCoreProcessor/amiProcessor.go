@@ -6,7 +6,7 @@ import (
 	"bufio"
 	"fmt"
 	"log"
-	"os"
+	"mime/multipart"
 )
 
 type Draw func(ev events.EventEmptyInterface, currentState *draw.CurrentState) (draw.DrawAction, error)
@@ -32,15 +32,11 @@ func (processor *AmiProcessor) RegisterEventProcessor() {
 	processor.EventDrawers["AsterNET.Manager.Event.DialBeginEvent, AsterNET"] = events.DialBeginEvent{}.Draw
 }
 
-func (processor *AmiProcessor) GetEventsHistory(fileName string) []draw.DrawAction {
+func (processor *AmiProcessor) GetEventsHistory(fileHmtl *multipart.FileHeader) []draw.DrawAction {
 
 	processor.DrawActions = []draw.DrawAction{}
 
-	if fileName == "" {
-		fileName = "example.astl"
-	}
-
-	file, err := os.Open(fileName)
+	file, err := fileHmtl.Open()
 
 	if err != nil {
 		log.Fatal(err)
