@@ -15,6 +15,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'public/src'), // Директория, в которой будет
         // размещаться итоговый бандл, папка dist в корне приложения
+        publicPath:"public/src",
         clean: true, // Очищает директорию dist перед обновлением бандла        
         filename: 'index.js',
     },

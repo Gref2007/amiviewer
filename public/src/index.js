@@ -16,48 +16,140 @@ var container;
 var network;
 var nodes;
 var edges;
-function init(ElementId) {
+var lastNodeId = 0;
+function init(ElementId, actions) {
   container = document.getElementById(ElementId);
   //nodes = new vis.DataSet();
   //edges = new vis.DataSet();
-  var nodes = new vis.DataSet([{
-    id: 1,
-    label: "Node 1"
-  }, {
-    id: 2,
-    label: "Node 2"
-  }, {
-    id: 3,
-    label: "Node 3"
-  }, {
-    id: 4,
-    label: "Node 4"
-  }, {
-    id: 5,
-    label: "Node 5"
-  }]);
-  var edges = new vis.DataSet([{
-    from: 1,
-    to: 3
-  }, {
-    from: 1,
-    to: 2
-  }, {
-    from: 2,
-    to: 4
-  }, {
-    from: 2,
-    to: 5
-  }, {
-    from: 3,
-    to: 3
-  }]);
+  nodes = new vis.DataSet([]);
+  edges = new vis.DataSet([]);
+  lastNodeId = 0;
+  for (let action of actions) {
+    drawAction(action);
+  }
   var data = {
     nodes: nodes,
     edges: edges
   };
   var options = {};
   network = new vis.Network(container, data, options);
+}
+function drawAction(action) {
+  if (action.CreateChannel) {
+    for (let channel of action.CreateChannel) {
+      lastNodeId += 1;
+      addNode({
+        Id: lastNodeId,
+        Name: channel
+      });
+    }
+  }
+}
+function eraseAction(action) {}
+function addNode(node) {
+  try {
+    nodes.add({
+      id: node.Id,
+      label: node.Name
+    });
+  } catch (err) {
+    alert(err);
+  }
+}
+function updateNode() {
+  try {
+    nodes.update({
+      id: document.getElementById("node-id").value,
+      label: document.getElementById("node-label").value
+    });
+  } catch (err) {
+    alert(err);
+  }
+}
+function removeNode() {
+  try {
+    nodes.remove({
+      id: document.getElementById("node-id").value
+    });
+  } catch (err) {
+    alert(err);
+  }
+}
+function addEdge() {
+  try {
+    edges.add({
+      id: document.getElementById("edge-id").value,
+      from: document.getElementById("edge-from").value,
+      to: document.getElementById("edge-to").value
+    });
+  } catch (err) {
+    alert(err);
+  }
+}
+function updateEdge() {
+  try {
+    edges.update({
+      id: document.getElementById("edge-id").value,
+      from: document.getElementById("edge-from").value,
+      to: document.getElementById("edge-to").value
+    });
+  } catch (err) {
+    alert(err);
+  }
+}
+function removeEdge() {
+  try {
+    edges.remove({
+      id: document.getElementById("edge-id").value
+    });
+  } catch (err) {
+    alert(err);
+  }
+}
+
+/***/ }),
+
+/***/ "./src/TimeLineLib.js":
+/*!****************************!*\
+  !*** ./src/TimeLineLib.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   init: () => (/* binding */ init)
+/* harmony export */ });
+var timeline;
+var items;
+var lastItemId = 0;
+function init(ElementId, actions) {
+  if (timeline) {
+    timeline.destroy();
+  }
+  var container = document.getElementById(ElementId);
+
+  // Create a DataSet (allows two way data-binding)
+  items = new vis.DataSet([]);
+  // Configuration for the Timeline
+  var options = {};
+  for (let action of actions) {
+    addItem(action);
+  }
+
+  // Create a Timeline
+  timeline = new vis.Timeline(container, items, options);
+}
+function addItem(action) {
+  lastItemId += 1;
+  try {
+    items.add({
+      id: lastItemId,
+      content: action.Type,
+      start: action.DateTime
+    });
+  } catch (err) {
+    alert(err);
+  }
 }
 
 /***/ }),
@@ -74,10 +166,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _FileDownload_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FileDownload.js */ "./src/components/FileDownload.js");
 /* harmony import */ var _Network_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Network.js */ "./src/components/Network.js");
+/* harmony import */ var _TimeLine_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TimeLine.js */ "./src/components/TimeLine.js");
 
 
-function initNetwork() {
-  _Network_js__WEBPACK_IMPORTED_MODULE_1__.init("mynetwork");
+
+async function initNetwork() {
+  let drawActions = await _FileDownload_js__WEBPACK_IMPORTED_MODULE_0__.getActions();
+  _Network_js__WEBPACK_IMPORTED_MODULE_1__.init(drawActions);
+  _TimeLine_js__WEBPACK_IMPORTED_MODULE_2__.init(drawActions);
 }
 function App() {
   return /*#__PURE__*/React.createElement("div", {
@@ -93,10 +189,7 @@ function App() {
   }, "\u041E\u0442\u043E\u0431\u0440\u0430\u0437\u0438\u0442\u044C \u0441\u0445\u0435\u043C\u0443")), /*#__PURE__*/React.createElement("div", {
     className: "col-10"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "row",
-    style: {
-      flex: '1 1 auto'
-    }
+    className: "row  flex-grow-1"
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-12"
   }, /*#__PURE__*/React.createElement(_Network_js__WEBPACK_IMPORTED_MODULE_1__["default"], null))), /*#__PURE__*/React.createElement("div", {
@@ -104,7 +197,7 @@ function App() {
     style: {
       height: '100px'
     }
-  }))));
+  }, /*#__PURE__*/React.createElement(_TimeLine_js__WEBPACK_IMPORTED_MODULE_2__["default"], null)))));
 }
 
 /***/ }),
@@ -117,8 +210,28 @@ function App() {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ FileDowonload)
+/* harmony export */   "default": () => (/* binding */ FileDowonload),
+/* harmony export */   getActions: () => (/* binding */ getActions),
+/* harmony export */   getFileName: () => (/* binding */ getFileName)
 /* harmony export */ });
+function getFileName() {
+  if (document.getElementById("formFile").files.length == 0) {
+    alert("file not selected");
+    throw new Error("file not selected");
+  }
+  return document.getElementById("formFile").files[0];
+}
+async function getActions() {
+  let formData = new FormData();
+  formData.append("file", getFileName());
+
+  //TODO брать из конфига
+  let response = await fetch("/api/v1/draw", {
+    method: 'POST',
+    body: formData
+  });
+  return await response.json();
+}
 function FileDowonload() {
   return /*#__PURE__*/React.createElement("div", {
     className: "mb-3"
@@ -150,8 +263,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _NetworkLib_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../NetworkLib.js */ "./src/NetworkLib.js");
 
 
-function init() {
-  _NetworkLib_js__WEBPACK_IMPORTED_MODULE_1__.init("mynetwork");
+async function init(drawActions) {
+  _NetworkLib_js__WEBPACK_IMPORTED_MODULE_1__.init("mynetwork", drawActions);
 }
 class Network extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
   shouldComponentUpdate(nextProps) {
@@ -167,6 +280,30 @@ class Network extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
       }
     });
   }
+}
+
+/***/ }),
+
+/***/ "./src/components/TimeLine.js":
+/*!************************************!*\
+  !*** ./src/components/TimeLine.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TimeLine),
+/* harmony export */   init: () => (/* binding */ init)
+/* harmony export */ });
+/* harmony import */ var _TimeLineLib_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../TimeLineLib.js */ "./src/TimeLineLib.js");
+
+async function init(drawActions) {
+  _TimeLineLib_js__WEBPACK_IMPORTED_MODULE_0__.init("visualization", drawActions);
+}
+function TimeLine() {
+  return /*#__PURE__*/React.createElement("div", {
+    id: "visualization"
+  });
 }
 
 /***/ }),

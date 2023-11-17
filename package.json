@@ -20,7 +20,8 @@
     "start": "webpack serve",
     "build": "webpack",
     "build-prod": "webpack --mode=production",
-    "clean": "rd /s /q dist"
+    "clean": "rd /s /q dist",
+    "watch": "webpack --watch"
   },
   "keywords": [],
   "author": "",

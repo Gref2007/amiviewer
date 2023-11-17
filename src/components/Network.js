@@ -1,8 +1,8 @@
 import React from 'react';
 import * as NetworkLib from '../NetworkLib.js';
 
-export function init() {
-  NetworkLib.init("mynetwork");
+export async function init(drawActions) { 
+  NetworkLib.init("mynetwork", drawActions);
 }
 
 export default class Network extends React.Component{
@@ -16,5 +16,5 @@ export default class Network extends React.Component{
     return (      
       <div id="mynetwork" style={{ width: '600px', height: "600px" }}></div>
     )
-  }  
+  }
 }

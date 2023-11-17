@@ -27,6 +27,7 @@ func (r *Router) SetupRoute(g *gin.Engine) {
 	g.Static("/public", "./public")
 
 	g.LoadHTMLFiles("public/src/index.html")
+
 	g.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{
 			"title": "Main website",
