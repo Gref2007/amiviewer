@@ -10,23 +10,28 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   init: () => (/* binding */ init)
+/* harmony export */   init: () => (/* binding */ init),
+/* harmony export */   redrawGrah: () => (/* binding */ redrawGrah)
 /* harmony export */ });
 var container;
 var network;
 var nodes;
 var edges;
-var lastNodeId = 0;
-function init(ElementId, actions) {
+var actions;
+var lastNodeId = -1;
+var lastEdgeId = -1;
+var lastBridgeId = 1000;
+var lastBridgeConnectId = 1000;
+function init(ElementId, jsonActions) {
+  lastNodeId = -1;
+  lastEdgeId = -1;
+  lastBridgeId = 1000;
+  lastBridgeConnectId = 1000;
+  actions = jsonActions;
   container = document.getElementById(ElementId);
-  //nodes = new vis.DataSet();
-  //edges = new vis.DataSet();
-  nodes = new vis.DataSet([]);
-  edges = new vis.DataSet([]);
-  lastNodeId = 0;
-  for (let action of actions) {
-    drawAction(action);
-  }
+  nodes = new vis.DataSet();
+  edges = new vis.DataSet();
+  drawAction(actions[0]);
   var data = {
     nodes: nodes,
     edges: edges
@@ -38,72 +43,128 @@ function drawAction(action) {
   if (action.CreateChannel) {
     for (let channel of action.CreateChannel) {
       lastNodeId += 1;
-      addNode({
-        Id: lastNodeId,
-        Name: channel
-      });
+      addNode(lastNodeId, channel);
+    }
+  }
+  if (action.CreateBridge) {
+    for (let bridge of action.CreateBridge) {
+      lastBridgeId += 1;
+      addNode(lastBridgeId, bridge);
+    }
+  }
+  if (action.ConnectChannel) {
+    for (let connect of action.ConnectChannel) {
+      lastEdgeId += 1;
+      addEdge(lastEdgeId, connect[0], connect[1]);
+    }
+  }
+  if (action.DisconnectChannel) {
+    action.DisconnectChannel.forEach(disconnect => {
+      removeEdge(disconnect[0], disconnect[1]);
+      lastBridgeConnectId -= 1;
+    });
+  }
+}
+function eraseAction(action) {
+  if (action.CreateChannel) {
+    action.CreateChannel.forEach(channel => {
+      removeNode(channel);
+      //lastNodeId -= 1;
+    });
+  }
+
+  if (action.CreateBridge) {
+    action.CreateBridge.forEach(bridge => {
+      removeNode(bridge);
+      lastBridgeId -= 1;
+    });
+  }
+  if (action.ConnectChannel) {
+    action.ConnectChannel.forEach(connectChannel => {
+      removeEdge(connectChannel[0], connectChannel[1]);
+      lastEdgeId -= 1;
+    });
+  }
+  if (action.DisconnectChannel) {
+    for (let disconnectChannel of action.DisconnectChannel) {
+      lastBridgeConnectId += 1;
+      addEdge(lastBridgeConnectId, disconnectChannel[0], disconnectChannel[1]);
     }
   }
 }
-function eraseAction(action) {}
-function addNode(node) {
+function addNode(nodeId, channel) {
   try {
     nodes.add({
-      id: node.Id,
-      label: node.Name
+      id: nodeId,
+      label: channel
     });
   } catch (err) {
     alert(err);
   }
 }
-function updateNode() {
-  try {
-    nodes.update({
-      id: document.getElementById("node-id").value,
-      label: document.getElementById("node-label").value
-    });
-  } catch (err) {
-    alert(err);
-  }
-}
-function removeNode() {
+function removeNode(label) {
   try {
     nodes.remove({
-      id: document.getElementById("node-id").value
+      nodeId
     });
   } catch (err) {
     alert(err);
   }
 }
-function addEdge() {
+function addEdge(edgeId, fromChannel, toChannel) {
   try {
+    let nodeFromId = nodes.get({
+      filter: function (node) {
+        return node.label == fromChannel;
+      }
+    })[0].id;
+
+    //= nodes.find(node => node.label == fromChannel).Id;
+    let nodeToId = nodes.get({
+      filter: function (node) {
+        return node.label == toChannel;
+      }
+    })[0].id;
     edges.add({
-      id: document.getElementById("edge-id").value,
-      from: document.getElementById("edge-from").value,
-      to: document.getElementById("edge-to").value
+      id: edgeId,
+      from: nodeFromId,
+      to: nodeToId
     });
   } catch (err) {
     alert(err);
   }
 }
-function updateEdge() {
+function removeEdge(label1, label2) {
   try {
-    edges.update({
-      id: document.getElementById("edge-id").value,
-      from: document.getElementById("edge-from").value,
-      to: document.getElementById("edge-to").value
-    });
-  } catch (err) {
-    alert(err);
-  }
-}
-function removeEdge() {
-  try {
+    let node1Id = nodes.get({
+      filter: function (node) {
+        return node.label == fromChannel;
+      }
+    })[0].id;
+    let node2Id = nodes.get({
+      filter: function (node) {
+        return node.label == fromChannel;
+      }
+    })[0].id;
+    let edgeId = edges.get({
+      filter: function (edge) {
+        return edge.from == node1Id && edge.to == node2Id || edge.from == node2Id && edge.to == node1Id;
+      }
+    })[0].id;
     edges.remove({
-      id: document.getElementById("edge-id").value
+      id: edgeId
     });
   } catch (err) {
     alert(err);
+  }
+}
+function redrawGrah(from, to) {
+  if (from < to) {
+    let newActions = actions.slice(from, to);
+    newActions.forEach(x => drawAction(x));
+  } else {
+    let newActions = actions.slice(to + 1, from + 1);
+    newActions.reverse().forEach(x => eraseAction(x));
   }
 }
 
@@ -119,17 +180,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   init: () => (/* binding */ init)
 /* harmony export */ });
+/* harmony import */ var _NetworkLib_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NetworkLib.js */ "./src/NetworkLib.js");
+
 var timeline;
 var items;
-var lastItemId = 0;
-function init(ElementId, actions) {
+var lastItemId = -1;
+var actions;
+var currentItemId = 0;
+function init(ElementId, jsonActions) {
+  actions = jsonActions;
+  lastItemId = -1;
+  currentItemId = 0;
   if (timeline) {
     timeline.destroy();
   }
   var container = document.getElementById(ElementId);
 
   // Create a DataSet (allows two way data-binding)
-  items = new vis.DataSet([]);
+  items = new vis.DataSet();
   // Configuration for the Timeline
   var options = {};
   for (let action of actions) {
@@ -138,6 +206,18 @@ function init(ElementId, actions) {
 
   // Create a Timeline
   timeline = new vis.Timeline(container, items, options);
+  timeline.setSelection(currentItemId, {
+    focus: false
+  });
+  timeline.on('select', onItemSelect);
+  document.addEventListener("keydown", function (evt) {
+    if (evt.code == "ArrowLeft") {
+      moveBack();
+    }
+    if (evt.code == "ArrowRight") {
+      moveForvard();
+    }
+  });
 }
 function addItem(action) {
   lastItemId += 1;
@@ -149,6 +229,32 @@ function addItem(action) {
     });
   } catch (err) {
     alert(err);
+  }
+}
+function onItemSelect(properties) {
+  let itemId = properties.items[0];
+  if (currentItemId == itemId) {
+    return;
+  }
+  _NetworkLib_js__WEBPACK_IMPORTED_MODULE_0__.redrawGrah(currentItemId + 1, itemId + 1);
+  currentItemId = itemId;
+}
+function moveForvard() {
+  if (currentItemId != lastItemId) {
+    currentItemId++;
+    timeline.setSelection(currentItemId, {
+      focus: false
+    });
+    _NetworkLib_js__WEBPACK_IMPORTED_MODULE_0__.redrawGrah(currentItemId, currentItemId + 1);
+  }
+}
+function moveBack() {
+  if (currentItemId != 0) {
+    currentItemId--;
+    timeline.setSelection(currentItemId, {
+      focus: false
+    });
+    _NetworkLib_js__WEBPACK_IMPORTED_MODULE_0__.redrawGrah(currentItemId + 1, currentItemId);
   }
 }
 

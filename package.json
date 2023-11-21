@@ -17,9 +17,9 @@
     "webpack-dev-server": "^4.15.1"
   },
   "scripts": {
-    "start": "webpack serve",
-    "build": "webpack",
-    "build-prod": "webpack --mode=production",
+    "start": "webpack serve --config webpack.dev.js",
+    "build": "webpack --config webpack.dev.js",
+    "build-prod": "webpack --mode=production --config webpack.prod.js",
     "clean": "rd /s /q dist",
     "watch": "webpack --watch"
   },
