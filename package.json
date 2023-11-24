@@ -19,7 +19,7 @@
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.dev.js",
-    "build-prod": "webpack --mode=production --config webpack.prod.js",
+    "build-prod": "webpack --mode=production --config webpack.common.js",
     "clean": "rd /s /q dist",
     "watch": "webpack --watch"
   },

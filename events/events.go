@@ -4,8 +4,11 @@ import "amiViewer/draw"
 
 type DrawFunction func(e ManagerEvent) draw.DrawAction
 
-type EventEmptyInterface interface{}
+type EventTypeInterface interface {
+	GetType() string
+}
 
-type Parser interface {
-	Parse(amistring string) ManagerEvent
+type EventInterface interface {
+	EventTypeInterface
+	Draw(currentState *draw.CurrentState) (*draw.DrawAction, error)
 }

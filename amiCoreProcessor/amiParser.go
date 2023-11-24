@@ -4,10 +4,9 @@ import (
 	"amiViewer/events"
 	"encoding/json"
 	"fmt"
-	"log"
 )
 
-type Parser func(json string) (events.EventEmptyInterface, error)
+type Parser func(json string) (events.EventInterface, error)
 
 type AmiParser struct {
 	eventsParsers map[string]Parser
@@ -18,9 +17,14 @@ func (p *AmiParser) RegisterAllEventsParser() {
 	p.eventsParsers = map[string]Parser{}
 
 	p.eventsParsers["AsterNET.Manager.Event.DialBeginEvent, AsterNET"] = events.DialBeginEvent{}.Parse
+	p.eventsParsers["AsterNET.Manager.Event.DialEndEvent, AsterNET"] = events.DialEndEvent{}.Parse
+	p.eventsParsers["AsterNET.Manager.Event.OriginateResponseEvent, AsterNET"] = events.OriginateResponseEvent{}.Parse
+	p.eventsParsers["AsterNET.Manager.Event.BridgeEnterEvent, AsterNET"] = events.BridgeEnterEvent{}.Parse
+	p.eventsParsers["AsterNET.Manager.Event.BridgeLeaveEvent, AsterNET"] = events.BridgeLeaveEvent{}.Parse
+	p.eventsParsers["AsterNET.Manager.Event.HangupEvent, AsterNET"] = events.HangupEvent{}.Parse
 }
 
-func (p *AmiParser) GetEventFromString(amiString string) (*events.EventEmptyInterface, error) {
+func (p *AmiParser) GetEventFromString(amiString string) (*events.EventInterface, error) {
 
 	var managerEvent events.ManagerEvent
 
@@ -39,7 +43,7 @@ func (p *AmiParser) GetEventFromString(amiString string) (*events.EventEmptyInte
 	event, err := eventParser(amiString)
 
 	if err != nil {
-		log.Fatal(err)
+		return nil, fmt.Errorf("Error in parser: %w", err)
 	}
 
 	return &event, nil

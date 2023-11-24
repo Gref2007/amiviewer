@@ -3,17 +3,17 @@ package draw
 import "time"
 
 type DrawAction struct {
-	Type           string
-	DateTime       time.Time
-	CreateChannel  []string
-	CreateBridge   []string
-	ConnectChannel [][2]string
-	ConnectBridge  [][2]string
+	Type              string
+	DateTime          time.Time
+	CreateChannel     []string
+	CreateBridge      []string
+	ConnectChannel    [][2]string
+	DisconnectChannel [][2]string
+	DeleteChannel     []string
 }
 
 type CurrentState struct {
-	Channels       []string
-	Bridges        []string
+	Channels       map[string]struct{}
+	Bridges        map[string]struct{}
 	LinkedChannels [][2]string
-	LinkedBridges  [][2]string
 }

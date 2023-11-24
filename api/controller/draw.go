@@ -26,7 +26,6 @@ func (dc *DrawController) GetDraw(ctx *gin.Context) {
 	}
 
 	var processor = amiCoreProcessor.NewAmiProcessor()
-	processor.RegisterEventProcessor()
 	drawEvents := processor.GetEventsHistory(file)
 
 	ctx.IndentedJSON(http.StatusOK, drawEvents)

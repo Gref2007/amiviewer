@@ -23,15 +23,3 @@
 {"$type":"AsterNET.Manager.Event.BridgeEnterEvent, AsterNET","LinkedId":"1573117355.173","BridgeUniqueId":"e09277c7-cb94-461d-a676-afe82d529b17","BridgeType":"basic","BridgeTechnology":"simple_bridge","BridgeCreator":"<unknown>","BridgeName":"<unknown>","BridgeNumChannels":"2","ChannelState":"6","CallerIdNum":"79777247398","CallerIdName":"<unknown>","ConnectedLineNum":"78003337773","ConnectedLineName":"78003337773","Language":"en","AccountCode":"Stub","Context":"tcs-transfer","Exten":"0000002745","Priority":"22","Attributes":{"$type":"System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib","bridgevideosourcemode":"none","channelstatedesc":"Up"},"Timestamp":1573117383.2375319,"DateReceived":"2019-11-07T12:03:03.2467155+03:00","Privilege":"call,all","UniqueId":"1573117355.174","Channel":"SIP/sip-proxy-00000062"}
 {"$type":"AsterNET.Manager.Event.BridgeEnterEvent, AsterNET","LinkedId":"1573117355.173","BridgeUniqueId":"b2a84580-58d9-4eb3-8678-1d4bf54f622c","BridgeType":"basic","BridgeTechnology":"simple_bridge","BridgeCreator":"<unknown>","BridgeName":"<unknown>","BridgeNumChannels":"1","ChannelState":"6","CallerIdNum":"0000002745","CallerIdName":"78003337773","ConnectedLineNum":"79777247398","ConnectedLineName":"<unknown>","Language":"en","AccountCode":"Stub","Context":"sub-dialout-trunk","Exten":"0000002745","Priority":"1","Attributes":{"$type":"System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib","bridgevideosourcemode":"none","channelstatedesc":"Up"},"Timestamp":1573117383.2379749,"DateReceived":"2019-11-07T12:03:03.2487155+03:00","Privilege":"call,all","UniqueId":"1573117377.177","Channel":"SIP/sip-proxy-00000063"}
 {"$type":"AsterNET.Manager.Event.BridgeEnterEvent, AsterNET","LinkedId":"1573117355.173","BridgeUniqueId":"b2a84580-58d9-4eb3-8678-1d4bf54f622c","BridgeType":"basic","BridgeTechnology":"simple_bridge","BridgeCreator":"<unknown>","BridgeName":"<unknown>","BridgeNumChannels":"2","ChannelState":"6","CallerIdNum":"79777247398","CallerIdName":"<unknown>","ConnectedLineNum":"0000002745","ConnectedLineName":"78003337773","Language":"en","AccountCode":"Stub","Context":"sub-dialout-trunk","Exten":"0000002745","Priority":"29","Attributes":{"$type":"System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib","bridgevideosourcemode":"none","channelstatedesc":"Up"},"Timestamp":1573117383.238478,"DateReceived":"2019-11-07T12:03:03.2497155+03:00","Privilege":"call,all","UniqueId":"1573117377.176","Channel":"Local/0000002745@dialout-00000026;2"}
-
-
-
-
-
-
-
-{"$type":"TCSBank.Ats.Asterisk.AsterNEText.Event.UserSipCauseEvent", "UniqueId":"1573117355.174","Channel":"SIP/sip-proxy-00000062"}
-После лива из бриджа
-{"$type":"TCSBank.Ats.Asterisk.AsterNEText.Event.UserSipCauseEvent, TCSBank.Ats.Asterisk","UniqueId":"1573117355.173","Channel":"SIP/sip-proxy-00000061"}
-После того как дозвонились до другого оператора
-{"$type":"TCSBank.Ats.Asterisk.AsterNEText.Event.UserSipCauseEvent, TCSBank.Ats.Asterisk","UniqueId":"1573117355.173","Channel":"SIP/sip-proxy-00000061"}
