@@ -50,13 +50,13 @@ func (bee BridgeEnterEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAct
 		}
 
 		var contain = slices.ContainsFunc(currentState.LinkedChannels, func(linkedChannels [2]string) bool {
-			return (linkedChannels[0] == bee.BridgeUniqueID && linkedChannels[1] == bee.Channel) ||
-				(linkedChannels[0] == bee.Channel && linkedChannels[1] == bee.BridgeUniqueID)
+			return (linkedChannels[0] == bee.Channel && linkedChannels[1] == bee.BridgeUniqueID) ||
+				(linkedChannels[0] == bee.BridgeUniqueID && linkedChannels[1] == bee.Channel)
 		})
 
 		if !contain {
-			currentState.LinkedChannels = append(currentState.LinkedChannels, [2]string{bee.BridgeUniqueID, bee.Channel})
-			draw.ConnectChannel = append(draw.ConnectChannel, [2]string{bee.BridgeUniqueID, bee.Channel})
+			currentState.LinkedChannels = append(currentState.LinkedChannels, [2]string{bee.Channel, bee.BridgeUniqueID})
+			draw.ConnectChannel = append(draw.ConnectChannel, [2]string{bee.Channel, bee.BridgeUniqueID})
 		}
 	}
 

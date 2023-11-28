@@ -6,5 +6,5 @@ export async function init(drawActions) {
 
 
 export default function TimeLine() {
-  return (<div id="visualization"></div>)
+  return (<div id="visualization" style={{ }} ></div>)
 }

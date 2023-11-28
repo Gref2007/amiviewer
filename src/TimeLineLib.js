@@ -15,6 +15,7 @@ export function init(ElementId, jsonActions) {
 
     if (timeline) {
         timeline.destroy()
+        document.removeEventListener("keydown", arrowPush);
     }
 
     var container = document.getElementById(ElementId);
@@ -22,36 +23,42 @@ export function init(ElementId, jsonActions) {
     // Create a DataSet (allows two way data-binding)
     items = new vis.DataSet();
     // Configuration for the Timeline
-    var options = {};
+    var options = {
+        order: (a, b) =>{ // I don't know how it works, but it help keep order in timeline elements
+            // order by id
+            return a.id - b.id;
+          }
+    };
 
-    for (let action of actions) {
-        addItem(action);
+    for (let index = 0; index < actions.length; index++) {
+        addItem(actions[index], index);        
     }
-
+       
     // Create a Timeline
     timeline = new vis.Timeline(container, items, options);
     timeline.setSelection(currentItemId, { focus: false });
 
     timeline.on('select', onItemSelect);
 
-    document.addEventListener("keydown", function (evt) {
-        if (evt.code == "ArrowLeft") {
-            moveBack();
-        }
-        if (evt.code == "ArrowRight") {
-            moveForvard();
-        }
+    document.addEventListener("keydown", arrowPush);    
+}
+
+function arrowPush(evt) {
+    if (evt.code == "ArrowLeft") {
+        moveBack();
     }
-    );
+    if (evt.code == "ArrowRight") {
+        moveForvard();
+    }
 }
 
 
-function addItem(action) {
+function addItem(action, index) {
     lastItemId += 1;
     try {
         items.add({
             id: lastItemId,
-            content: action.Type,
+            content: action.Type+index,
             start: action.DateTime
         });
     } catch (err) {
@@ -77,8 +84,6 @@ function moveForvard() {
         NetworkLib.redrawGrah(currentItemId, currentItemId + 1);
 
     }
-
-
 }
 
 function moveBack() {

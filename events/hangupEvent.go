@@ -40,8 +40,8 @@ func (he HangupEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAction, e
 		//delete exist connection
 		for i := len(currentState.LinkedChannels) - 1; i >= 0; i-- {
 			if currentState.LinkedChannels[i][0] == he.Channel || currentState.LinkedChannels[i][1] == he.Channel {
-				currentState.LinkedChannels = append(currentState.LinkedChannels[:i], currentState.LinkedChannels[i+1:]...)
 				draw.DisconnectChannel = append(draw.DisconnectChannel, [2]string{currentState.LinkedChannels[i][0], currentState.LinkedChannels[i][1]})
+				currentState.LinkedChannels = append(currentState.LinkedChannels[:i], currentState.LinkedChannels[i+1:]...)
 			}
 		}
 

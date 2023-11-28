@@ -62,8 +62,8 @@
         ],
         "ConnectChannel": [
             [
-                "adf3e978-d079-4ab9-b7d6-1af8fb037ec2",
-                "SIP/sip-proxy-00000062"
+                "SIP/sip-proxy-00000062",
+                "adf3e978-d079-4ab9-b7d6-1af8fb037ec2"
             ]
         ],
         "DisconnectChannel": null,
@@ -76,8 +76,8 @@
         "CreateBridge": null,
         "ConnectChannel": [
             [
-                "adf3e978-d079-4ab9-b7d6-1af8fb037ec2",
-                "SIP/sip-proxy-00000061"
+                "SIP/sip-proxy-00000061",
+                "adf3e978-d079-4ab9-b7d6-1af8fb037ec2"
             ]
         ],
         "DisconnectChannel": null,
@@ -152,8 +152,8 @@
         "ConnectChannel": null,
         "DisconnectChannel": [
             [
-                "SIP/sip-proxy-00000062",
-                "Local/0000002745@dialout-00000026;1"
+                "SIP/sip-proxy-00000061",
+                "SIP/sip-proxy-00000062"
             ]
         ],
         "DeleteChannel": [
@@ -187,8 +187,8 @@
         ],
         "ConnectChannel": [
             [
-                "e09277c7-cb94-461d-a676-afe82d529b17",
-                "Local/0000002745@dialout-00000026;1"
+                "Local/0000002745@dialout-00000026;1",
+                "e09277c7-cb94-461d-a676-afe82d529b17"
             ]
         ],
         "DisconnectChannel": null,
@@ -201,8 +201,8 @@
         "CreateBridge": null,
         "ConnectChannel": [
             [
-                "e09277c7-cb94-461d-a676-afe82d529b17",
-                "SIP/sip-proxy-00000062"
+                "SIP/sip-proxy-00000062",
+                "e09277c7-cb94-461d-a676-afe82d529b17"
             ]
         ],
         "DisconnectChannel": null,
@@ -217,8 +217,8 @@
         ],
         "ConnectChannel": [
             [
-                "b2a84580-58d9-4eb3-8678-1d4bf54f622c",
-                "SIP/sip-proxy-00000063"
+                "SIP/sip-proxy-00000063",
+                "b2a84580-58d9-4eb3-8678-1d4bf54f622c"
             ]
         ],
         "DisconnectChannel": null,
@@ -231,8 +231,8 @@
         "CreateBridge": null,
         "ConnectChannel": [
             [
-                "b2a84580-58d9-4eb3-8678-1d4bf54f622c",
-                "Local/0000002745@dialout-00000026;2"
+                "Local/0000002745@dialout-00000026;2",
+                "b2a84580-58d9-4eb3-8678-1d4bf54f622c"
             ]
         ],
         "DisconnectChannel": null,

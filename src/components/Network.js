@@ -13,8 +13,12 @@ export default class Network extends React.Component{
 
   render(){
     console.log("render network");
-    return (      
-      <div id="mynetwork" style={{ width: '600px', height: "600px" }}></div>
+    return (
+      <>
+      
+      <div id="mynetwork" style={{ width: '100%', height: "600px"}}></div>    
+      <div id="config" ></div>  
+      </>        
     )
   }
 }
