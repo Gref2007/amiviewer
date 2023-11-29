@@ -19,4 +19,9 @@
 
 # Go workspace file
 go.work
+
+
+
+#js builded bundle
 node_modules
+public/

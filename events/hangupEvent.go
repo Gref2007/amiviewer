@@ -29,7 +29,7 @@ func (he HangupEvent) Parse(amistring string) (EventInterface, error) {
 func (he HangupEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAction, error) {
 
 	var draw = draw.DrawAction{
-		Type:              "HangupEvent",
+		EvetType:          "HangupEvent",
 		DateTime:          he.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
 		DeleteChannel:     []string{},
 		DisconnectChannel: [][2]string{},

@@ -27,17 +27,20 @@ func (dee DialEndEvent) Parse(amistring string) (EventInterface, error) {
 // Draw get DrawAction for event
 func (dee DialEndEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAction, error) {
 
-	var draw = draw.DrawAction{
-		Type:           "DialEndEvent",
+	var drawaction = draw.DrawAction{
+		EvetType:       "DialEndEvent",
 		DateTime:       dee.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
-		CreateChannel:  []string{},
+		CreateChannel:  []draw.CreateChannel{},
 		ConnectChannel: [][2]string{},
 	}
 
 	if _, ok := currentState.Channels[dee.DestChannel]; !ok {
 		currentState.Channels[dee.DestChannel] = struct{}{}
-		draw.CreateChannel = append(draw.CreateChannel, dee.DestChannel)
+		drawaction.CreateChannel = append(drawaction.CreateChannel, draw.CreateChannel{
+			Channel: dee.DestChannel,
+			Type:    draw.Channel,
+		})
 	}
 
-	return &draw, nil
+	return &drawaction, nil
 }

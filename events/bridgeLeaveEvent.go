@@ -32,16 +32,20 @@ func (ble BridgeLeaveEvent) Parse(amistring string) (EventInterface, error) {
 // Draw get DrawAction for event
 func (ble BridgeLeaveEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAction, error) {
 
-	var draw = draw.DrawAction{
-		Type:              "BridgeLeaveEvent",
+	var drawaction = draw.DrawAction{
+		EvetType:          "BridgeLeaveEvent",
 		DateTime:          ble.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
+		CreateChannel:     []draw.CreateChannel{},
 		DisconnectChannel: [][2]string{},
 	}
 
 	if len(ble.Channel) > 0 {
 		if _, ok := currentState.Channels[ble.Channel]; !ok {
 			currentState.Channels[ble.Channel] = struct{}{}
-			draw.CreateChannel = append(draw.CreateChannel, ble.Channel)
+			drawaction.CreateChannel = append(drawaction.CreateChannel, draw.CreateChannel{
+				Channel: ble.Channel,
+				Type:    draw.Channel,
+			})
 		}
 
 		var index = slices.IndexFunc(currentState.LinkedChannels, func(linkedChannels [2]string) bool {
@@ -51,10 +55,10 @@ func (ble BridgeLeaveEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAct
 
 		})
 		if index >= 0 {
-			draw.DisconnectChannel = append(draw.DisconnectChannel, [2]string{ble.BridgeUniqueID, ble.Channel})
+			drawaction.DisconnectChannel = append(drawaction.DisconnectChannel, [2]string{ble.BridgeUniqueID, ble.Channel})
 			currentState.LinkedChannels = append(currentState.LinkedChannels[:index], currentState.LinkedChannels[index+1:]...)
 		}
 	}
 
-	return &draw, nil
+	return &drawaction, nil
 }

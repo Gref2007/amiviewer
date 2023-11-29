@@ -32,21 +32,28 @@ func (bee BridgeEnterEvent) Parse(amistring string) (EventInterface, error) {
 // Draw get DrawAction for event
 func (bee BridgeEnterEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAction, error) {
 
-	var draw = draw.DrawAction{
-		Type:           "BridgeEnterEvent",
+	var drawaction = draw.DrawAction{
+		EvetType:       "BridgeEnterEvent",
 		DateTime:       bee.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
+		CreateChannel:  []draw.CreateChannel{},
 		ConnectChannel: [][2]string{},
 	}
 
 	if _, ok := currentState.Bridges[bee.BridgeUniqueID]; !ok {
 		currentState.Bridges[bee.BridgeUniqueID] = struct{}{}
-		draw.CreateBridge = append(draw.CreateBridge, bee.BridgeUniqueID)
+		drawaction.CreateChannel = append(drawaction.CreateChannel, draw.CreateChannel{
+			Channel: bee.BridgeUniqueID,
+			Type:    draw.Bridge,
+		})
 	}
 
 	if len(bee.Channel) > 0 {
 		if _, ok := currentState.Channels[bee.Channel]; !ok {
 			currentState.Channels[bee.Channel] = struct{}{}
-			draw.CreateChannel = append(draw.CreateChannel, bee.Channel)
+			drawaction.CreateChannel = append(drawaction.CreateChannel, draw.CreateChannel{
+				Channel: bee.Channel,
+				Type:    draw.Channel,
+			})
 		}
 
 		var contain = slices.ContainsFunc(currentState.LinkedChannels, func(linkedChannels [2]string) bool {
@@ -56,9 +63,9 @@ func (bee BridgeEnterEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAct
 
 		if !contain {
 			currentState.LinkedChannels = append(currentState.LinkedChannels, [2]string{bee.Channel, bee.BridgeUniqueID})
-			draw.ConnectChannel = append(draw.ConnectChannel, [2]string{bee.Channel, bee.BridgeUniqueID})
+			drawaction.ConnectChannel = append(drawaction.ConnectChannel, [2]string{bee.Channel, bee.BridgeUniqueID})
 		}
 	}
 
-	return &draw, nil
+	return &drawaction, nil
 }

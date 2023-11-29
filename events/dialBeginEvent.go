@@ -30,22 +30,34 @@ func (dbe DialBeginEvent) Parse(amistring string) (EventInterface, error) {
 // Draw get DrawAction for event
 func (dbe DialBeginEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAction, error) {
 
-	var draw = draw.DrawAction{
-		Type:           "DialBeginEvent",
+	var drawaction = draw.DrawAction{
+		EvetType:       "DialBeginEvent",
 		DateTime:       dbe.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
-		CreateChannel:  []string{},
+		CreateChannel:  []draw.CreateChannel{},
 		ConnectChannel: [][2]string{},
 	}
 
 	if _, ok := currentState.Channels[dbe.DestChannel]; !ok {
-		currentState.Channels[dbe.DestChannel] = struct{}{}
-		draw.CreateChannel = append(draw.CreateChannel, dbe.DestChannel)
+		//If it not localChannel
+		if !dbe.CreateLocalChannels(&drawaction, currentState, dbe.DestChannel) {
+			currentState.Channels[dbe.DestChannel] = struct{}{}
+			drawaction.CreateChannel = append(drawaction.CreateChannel, draw.CreateChannel{
+				Channel: dbe.DestChannel,
+				Type:    draw.Channel,
+			})
+		}
 	}
 
 	if len(dbe.Channel) > 0 {
+		//If it not localChannel
 		if _, ok := currentState.Channels[dbe.Channel]; !ok {
-			currentState.Channels[dbe.Channel] = struct{}{}
-			draw.CreateChannel = append(draw.CreateChannel, dbe.Channel)
+			if !dbe.CreateLocalChannels(&drawaction, currentState, dbe.DestChannel) {
+				currentState.Channels[dbe.Channel] = struct{}{}
+				drawaction.CreateChannel = append(drawaction.CreateChannel, draw.CreateChannel{
+					Channel: dbe.Channel,
+					Type:    draw.Channel,
+				})
+			}
 		}
 
 		var contain = slices.ContainsFunc(currentState.LinkedChannels, func(linkedChannels [2]string) bool {
@@ -56,9 +68,9 @@ func (dbe DialBeginEvent) Draw(currentState *draw.CurrentState) (*draw.DrawActio
 
 		if !contain {
 			currentState.LinkedChannels = append(currentState.LinkedChannels, [2]string{dbe.Channel, dbe.DestChannel})
-			draw.ConnectChannel = append(draw.ConnectChannel, [2]string{dbe.Channel, dbe.DestChannel})
+			drawaction.ConnectChannel = append(drawaction.ConnectChannel, [2]string{dbe.Channel, dbe.DestChannel})
 		}
 	}
 
-	return &draw, nil
+	return &drawaction, nil
 }
