@@ -29,7 +29,7 @@ func (ore OriginateResponseEvent) Parse(amistring string) (EventInterface, error
 func (ore OriginateResponseEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAction, error) {
 
 	var drawaction = draw.DrawAction{
-		EvetType:      "OriginateResponseEvent",
+		EventType:     "OriginateResponseEvent",
 		DateTime:      ore.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
 		CreateChannel: []draw.CreateChannel{},
 	}

@@ -31,7 +31,7 @@ func (dbe DialBeginEvent) Parse(amistring string) (EventInterface, error) {
 func (dbe DialBeginEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAction, error) {
 
 	var drawaction = draw.DrawAction{
-		EvetType:       "DialBeginEvent",
+		EventType:      "DialBeginEvent",
 		DateTime:       dbe.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
 		CreateChannel:  []draw.CreateChannel{},
 		ConnectChannel: [][2]string{},

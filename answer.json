@@ -1,40 +1,42 @@
 [
     {
-        "Type": "DialBeginEvent",
+        "EventType": "DialBeginEvent",
         "DateTime": "2019-11-07T12:02:35.8147155+03:00",
         "CreateChannel": [
-            "SIP/sip-proxy-00000061"
+            {
+                "Channel": "SIP/sip-proxy-00000061",
+                "Type": "channel"
+            }
         ],
-        "CreateBridge": null,
         "ConnectChannel": [],
         "DisconnectChannel": null,
         "DeleteChannel": null
     },
     {
-        "Type": "OriginateResponseEvent",
+        "EventType": "OriginateResponseEvent",
         "DateTime": "2019-11-07T12:02:35.9157155+03:00",
         "CreateChannel": [],
-        "CreateBridge": null,
         "ConnectChannel": null,
         "DisconnectChannel": null,
         "DeleteChannel": null
     },
     {
-        "Type": "DialEndEvent",
+        "EventType": "DialEndEvent",
         "DateTime": "2019-11-07T12:02:35.9177155+03:00",
         "CreateChannel": [],
-        "CreateBridge": null,
         "ConnectChannel": [],
         "DisconnectChannel": null,
         "DeleteChannel": null
     },
     {
-        "Type": "DialBeginEvent",
+        "EventType": "DialBeginEvent",
         "DateTime": "2019-11-07T12:02:35.9707155+03:00",
         "CreateChannel": [
-            "SIP/sip-proxy-00000062"
+            {
+                "Channel": "SIP/sip-proxy-00000062",
+                "Type": "channel"
+            }
         ],
-        "CreateBridge": null,
         "ConnectChannel": [
             [
                 "SIP/sip-proxy-00000061",
@@ -45,20 +47,21 @@
         "DeleteChannel": null
     },
     {
-        "Type": "DialEndEvent",
+        "EventType": "DialEndEvent",
         "DateTime": "2019-11-07T12:02:47.7247155+03:00",
         "CreateChannel": [],
-        "CreateBridge": null,
         "ConnectChannel": [],
         "DisconnectChannel": null,
         "DeleteChannel": null
     },
     {
-        "Type": "BridgeEnterEvent",
+        "EventType": "BridgeEnterEvent",
         "DateTime": "2019-11-07T12:02:47.7257155+03:00",
-        "CreateChannel": null,
-        "CreateBridge": [
-            "adf3e978-d079-4ab9-b7d6-1af8fb037ec2"
+        "CreateChannel": [
+            {
+                "Channel": "adf3e978-d079-4ab9-b7d6-1af8fb037ec2",
+                "Type": "bridge"
+            }
         ],
         "ConnectChannel": [
             [
@@ -70,10 +73,9 @@
         "DeleteChannel": null
     },
     {
-        "Type": "BridgeEnterEvent",
+        "EventType": "BridgeEnterEvent",
         "DateTime": "2019-11-07T12:02:47.7297155+03:00",
-        "CreateChannel": null,
-        "CreateBridge": null,
+        "CreateChannel": [],
         "ConnectChannel": [
             [
                 "SIP/sip-proxy-00000061",
@@ -84,10 +86,9 @@
         "DeleteChannel": null
     },
     {
-        "Type": "BridgeLeaveEvent",
+        "EventType": "BridgeLeaveEvent",
         "DateTime": "2019-11-07T12:02:57.2817155+03:00",
-        "CreateChannel": null,
-        "CreateBridge": null,
+        "CreateChannel": [],
         "ConnectChannel": null,
         "DisconnectChannel": [
             [
@@ -98,10 +99,9 @@
         "DeleteChannel": null
     },
     {
-        "Type": "BridgeLeaveEvent",
+        "EventType": "BridgeLeaveEvent",
         "DateTime": "2019-11-07T12:02:57.2827155+03:00",
-        "CreateChannel": null,
-        "CreateBridge": null,
+        "CreateChannel": [],
         "ConnectChannel": null,
         "DisconnectChannel": [
             [
@@ -112,13 +112,23 @@
         "DeleteChannel": null
     },
     {
-        "Type": "DialBeginEvent",
+        "EventType": "DialBeginEvent",
         "DateTime": "2019-11-07T12:02:57.2857155+03:00",
         "CreateChannel": [
-            "Local/0000002745@dialout-00000026;1"
+            {
+                "Channel": "Local/0000002745@dialout-00000026;1",
+                "Type": "localChannel"
+            },
+            {
+                "Channel": "Local/0000002745@dialout-00000026;2",
+                "Type": "localChannel"
+            }
         ],
-        "CreateBridge": null,
         "ConnectChannel": [
+            [
+                "Local/0000002745@dialout-00000026;1",
+                "Local/0000002745@dialout-00000026;2"
+            ],
             [
                 "SIP/sip-proxy-00000062",
                 "Local/0000002745@dialout-00000026;1"
@@ -128,13 +138,14 @@
         "DeleteChannel": null
     },
     {
-        "Type": "DialBeginEvent",
+        "EventType": "DialBeginEvent",
         "DateTime": "2019-11-07T12:02:57.2887155+03:00",
         "CreateChannel": [
-            "SIP/sip-proxy-00000063",
-            "Local/0000002745@dialout-00000026;2"
+            {
+                "Channel": "SIP/sip-proxy-00000063",
+                "Type": "channel"
+            }
         ],
-        "CreateBridge": null,
         "ConnectChannel": [
             [
                 "Local/0000002745@dialout-00000026;2",
@@ -145,10 +156,9 @@
         "DeleteChannel": null
     },
     {
-        "Type": "HangupEvent",
+        "EventType": "HangupEvent",
         "DateTime": "2019-11-07T12:02:57.3407155+03:00",
         "CreateChannel": null,
-        "CreateBridge": null,
         "ConnectChannel": null,
         "DisconnectChannel": [
             [
@@ -161,29 +171,29 @@
         ]
     },
     {
-        "Type": "DialEndEvent",
+        "EventType": "DialEndEvent",
         "DateTime": "2019-11-07T12:03:03.2417155+03:00",
         "CreateChannel": [],
-        "CreateBridge": null,
         "ConnectChannel": [],
         "DisconnectChannel": null,
         "DeleteChannel": null
     },
     {
-        "Type": "DialEndEvent",
+        "EventType": "DialEndEvent",
         "DateTime": "2019-11-07T12:03:03.2437155+03:00",
         "CreateChannel": [],
-        "CreateBridge": null,
         "ConnectChannel": [],
         "DisconnectChannel": null,
         "DeleteChannel": null
     },
     {
-        "Type": "BridgeEnterEvent",
+        "EventType": "BridgeEnterEvent",
         "DateTime": "2019-11-07T12:03:03.2457155+03:00",
-        "CreateChannel": null,
-        "CreateBridge": [
-            "e09277c7-cb94-461d-a676-afe82d529b17"
+        "CreateChannel": [
+            {
+                "Channel": "e09277c7-cb94-461d-a676-afe82d529b17",
+                "Type": "bridge"
+            }
         ],
         "ConnectChannel": [
             [
@@ -195,10 +205,9 @@
         "DeleteChannel": null
     },
     {
-        "Type": "BridgeEnterEvent",
+        "EventType": "BridgeEnterEvent",
         "DateTime": "2019-11-07T12:03:03.2467155+03:00",
-        "CreateChannel": null,
-        "CreateBridge": null,
+        "CreateChannel": [],
         "ConnectChannel": [
             [
                 "SIP/sip-proxy-00000062",
@@ -209,11 +218,13 @@
         "DeleteChannel": null
     },
     {
-        "Type": "BridgeEnterEvent",
+        "EventType": "BridgeEnterEvent",
         "DateTime": "2019-11-07T12:03:03.2487155+03:00",
-        "CreateChannel": null,
-        "CreateBridge": [
-            "b2a84580-58d9-4eb3-8678-1d4bf54f622c"
+        "CreateChannel": [
+            {
+                "Channel": "b2a84580-58d9-4eb3-8678-1d4bf54f622c",
+                "Type": "bridge"
+            }
         ],
         "ConnectChannel": [
             [
@@ -225,10 +236,9 @@
         "DeleteChannel": null
     },
     {
-        "Type": "BridgeEnterEvent",
+        "EventType": "BridgeEnterEvent",
         "DateTime": "2019-11-07T12:03:03.2497155+03:00",
-        "CreateChannel": null,
-        "CreateBridge": null,
+        "CreateChannel": [],
         "ConnectChannel": [
             [
                 "Local/0000002745@dialout-00000026;2",

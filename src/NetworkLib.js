@@ -1,3 +1,5 @@
+import * as NetworkLib from './NetworkLib';
+
 var container;
 var network;
 var nodes;
@@ -17,14 +19,14 @@ export function init(ElementId, jsonActions) {
     actions = jsonActions;
 
     container = document.getElementById(ElementId);
-    createVirtualNetwork(container, actions);
+    NetworkLib.createVirtualNetwork(container, actions);
 }
 
-function createVirtualNetwork(container, actions) {
+export function createVirtualNetwork(container, actions) {
     var options = {
         height: '100%',
         width: '100%',
-        layout: {           
+        layout: {
             improvedLayout: true,
         },
         edges: {
@@ -41,7 +43,7 @@ function createVirtualNetwork(container, actions) {
                 avoidOverlap: 0.2,
                 //nodeDistance: 100,
             },
-        }          
+        }
     };
 
     var data = {
@@ -57,16 +59,8 @@ function createVirtualNetwork(container, actions) {
         if (action.CreateChannel) {
             for (let channel of action.CreateChannel) {
                 lastNodeId += 1;
-                let id = addNode(data.nodes, lastNodeId, channel, "box", null, 100);
-                virtualData.nodes.set(channel, { id: id })
-            }
-        }
-
-        if (action.CreateBridge) {
-            for (let bridge of action.CreateBridge) {
-                lastNodeId += 1;
-                let id = addNode(data.nodes, lastNodeId, bridge, "box", "rgb(190, 219, 218)", 100);
-                virtualData.nodes.set(bridge, { id: id })
+                virtualData.nodes.set(channel.Channel, { id: lastNodeId, type: channel.Type })
+                let id = addNode(data.nodes, channel.Channel);
             }
         }
 
@@ -131,18 +125,10 @@ function finishInitialize(container, actions, options, virtualNetwork) {
     });
 }
 
-function drawAction(action) {
+export function drawAction(action) {
     if (action.CreateChannel) {
         for (let channel of action.CreateChannel) {
-            lastNodeId += 1;
-            addNode(nodes, lastNodeId, channel, "box", null, 100);
-        }
-    }
-
-    if (action.CreateBridge) {
-        for (let bridge of action.CreateBridge) {
-            lastNodeId += 1;
-            addNode(nodes, lastNodeId, bridge, "box", "rgb(190, 219, 218)", 100);
+            addNode(nodes, channel.Channel);
         }
     }
 
@@ -166,11 +152,10 @@ function drawAction(action) {
     }
 }
 
-function eraseAction(action) {
+export function eraseAction(action) {
     if (action.DeleteChannel) {
         for (let deleteChannel of action.DeleteChannel) {
-            lastNodeId += 1;
-            addNode(nodes, lastNodeId, deleteChannel, "box");
+            addNode(nodes, deleteChannel);
         }
     }
 
@@ -189,27 +174,36 @@ function eraseAction(action) {
 
     if (action.CreateChannel) {
         action.CreateChannel.forEach(channel => {
-            removeNode(nodes, channel);
-        });
-    }
-    if (action.CreateBridge) {
-        action.CreateBridge.forEach(bridge => {
-            removeNode(nodes, bridge);
+            removeNode(nodes, channel.Channel);
         });
     }
 }
 
-function addNode(nodes, nodeId, channel, shape, color, widthConstraint) {
+function addNode(nodes, channel) {
+    let shape = "box";
+    let color;
+    let widthConstraint = 100;
+
     try {
-        let vertNode = virtualData ? virtualData.nodes.get(channel) : null;
+        let vertNode = virtualData.nodes.get(channel);
+        switch (vertNode.type) {
+            case nodeTypes.Channel:
+                break;
+            case nodeTypes.LocalChannel:
+                color = "rgb(167, 103, 250)";
+                break;
+            case nodeTypes.Bridge:
+                color = "rgb(190, 219, 218)";
+        };
+
         return nodes.add({
-            id: nodeId,
+            id: vertNode.id,
             label: channel,
             shape: shape,
             color: color,
             widthConstraint: { maximum: widthConstraint },
-            x: vertNode?.x,
-            y: vertNode?.y            
+            x: vertNode.x,
+            y: vertNode.y
         })[0];
     } catch (err) {
         alert(err);
@@ -254,10 +248,8 @@ function addEdge(nodes, edges, edgeId, fromChannel, toChannel) {
     }
 }
 
-
 function removeEdge(edges, label1, label2) {
     try {
-
         let node1Id = nodes.get({
             filter: function (node) {
                 return (node.label == label1);
@@ -275,20 +267,18 @@ function removeEdge(edges, label1, label2) {
                 return (edge.from == node1Id) && (edge.to == node2Id) || (edge.from == node2Id) && (edge.to == node1Id);
             }
         })[0].id;
-
-
         edges.remove({ id: edgeId });
     } catch (err) {
-        alert(err);
+        //alert(err);
     }
 }
 
 export function redrawGrah(from, to) {
     if (from < to) {
-        let newActions = actions.slice(from, to);
-        newActions.forEach(x => drawAction(x))
+        let newActions = actions.slice(++from, ++to);
+        newActions.forEach(x => NetworkLib.drawAction(x))
     } else {
-        let newActions = actions.slice(to + 1, from + 1);
-        newActions.reverse().forEach(x => eraseAction(x))
+        let newActions = actions.slice(++to, ++from);
+        newActions.reverse().forEach(x => NetworkLib.eraseAction(x))
     }
 }

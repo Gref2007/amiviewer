@@ -33,7 +33,7 @@ func (ble BridgeLeaveEvent) Parse(amistring string) (EventInterface, error) {
 func (ble BridgeLeaveEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAction, error) {
 
 	var drawaction = draw.DrawAction{
-		EvetType:          "BridgeLeaveEvent",
+		EventType:         "BridgeLeaveEvent",
 		DateTime:          ble.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
 		CreateChannel:     []draw.CreateChannel{},
 		DisconnectChannel: [][2]string{},

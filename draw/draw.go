@@ -7,7 +7,7 @@ import (
 )
 
 type DrawAction struct {
-	EvetType          string
+	EventType         string
 	DateTime          time.Time
 	CreateChannel     []CreateChannel
 	ConnectChannel    [][2]string

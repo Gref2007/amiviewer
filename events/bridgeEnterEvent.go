@@ -33,7 +33,7 @@ func (bee BridgeEnterEvent) Parse(amistring string) (EventInterface, error) {
 func (bee BridgeEnterEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAction, error) {
 
 	var drawaction = draw.DrawAction{
-		EvetType:       "BridgeEnterEvent",
+		EventType:      "BridgeEnterEvent",
 		DateTime:       bee.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
 		CreateChannel:  []draw.CreateChannel{},
 		ConnectChannel: [][2]string{},
