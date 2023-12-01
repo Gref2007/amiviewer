@@ -4,8 +4,6 @@ import (
 	"amiViewer/draw"
 	"encoding/json"
 	"fmt"
-
-	"golang.org/x/exp/slices"
 )
 
 // DialBeginEvent event Struct
@@ -60,16 +58,16 @@ func (dbe DialBeginEvent) Draw(currentState *draw.CurrentState) (*draw.DrawActio
 			}
 		}
 
-		var contain = slices.ContainsFunc(currentState.LinkedChannels, func(linkedChannels [2]string) bool {
+		//Probably we shouldn't do this
+		// var contain = slices.ContainsFunc(currentState.LinkedChannels, func(linkedChannels [2]string) bool {
+		// 	return (linkedChannels[0] == dbe.Channel && linkedChannels[1] == dbe.DestChannel) ||
+		// 		(linkedChannels[0] == dbe.DestChannel && linkedChannels[1] == dbe.Channel)
+		// })
 
-			return (linkedChannels[0] == dbe.Channel && linkedChannels[1] == dbe.DestChannel) ||
-				(linkedChannels[0] == dbe.DestChannel && linkedChannels[1] == dbe.Channel)
-		})
-
-		if !contain {
-			currentState.LinkedChannels = append(currentState.LinkedChannels, [2]string{dbe.Channel, dbe.DestChannel})
-			drawaction.ConnectChannel = append(drawaction.ConnectChannel, [2]string{dbe.Channel, dbe.DestChannel})
-		}
+		// if !contain {
+		// 	currentState.LinkedChannels = append(currentState.LinkedChannels, [2]string{dbe.Channel, dbe.DestChannel})
+		// 	drawaction.ConnectChannel = append(drawaction.ConnectChannel, [2]string{dbe.Channel, dbe.DestChannel})
+		// }
 	}
 
 	return &drawaction, nil

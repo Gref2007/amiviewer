@@ -74,18 +74,17 @@ function onItemSelect(properties) {
 }
 
 function moveForvard() {
-    if (currentItemId != lastItemId) {
-        timeline.setSelection(currentItemId, { focus: false });
+    if (currentItemId != lastItemId) {        
         NetworkLib.redrawGrah(currentItemId, currentItemId + 1);
         currentItemId++;
-
+        timeline.setSelection(currentItemId, { focus: false });
     }
 }
 
 function moveBack() {
-    if (currentItemId != 0) {
-        timeline.setSelection(currentItemId, { focus: false });
-        NetworkLib.redrawGrah(currentItemId, currentItemId - 1);
+    if (currentItemId != 0) {        
+        NetworkLib.redrawGrah(currentItemId, currentItemId - 1);        
         currentItemId--;
+        timeline.setSelection(currentItemId, { focus: false });
     }
 }

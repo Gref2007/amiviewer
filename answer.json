@@ -37,12 +37,7 @@
                 "Type": "channel"
             }
         ],
-        "ConnectChannel": [
-            [
-                "SIP/sip-proxy-00000061",
-                "SIP/sip-proxy-00000062"
-            ]
-        ],
+        "ConnectChannel": [],
         "DisconnectChannel": null,
         "DeleteChannel": null
     },
@@ -128,10 +123,6 @@
             [
                 "Local/0000002745@dialout-00000026;1",
                 "Local/0000002745@dialout-00000026;2"
-            ],
-            [
-                "SIP/sip-proxy-00000062",
-                "Local/0000002745@dialout-00000026;1"
             ]
         ],
         "DisconnectChannel": null,
@@ -146,12 +137,7 @@
                 "Type": "channel"
             }
         ],
-        "ConnectChannel": [
-            [
-                "Local/0000002745@dialout-00000026;2",
-                "SIP/sip-proxy-00000063"
-            ]
-        ],
+        "ConnectChannel": [],
         "DisconnectChannel": null,
         "DeleteChannel": null
     },
@@ -160,12 +146,7 @@
         "DateTime": "2019-11-07T12:02:57.3407155+03:00",
         "CreateChannel": null,
         "ConnectChannel": null,
-        "DisconnectChannel": [
-            [
-                "SIP/sip-proxy-00000061",
-                "SIP/sip-proxy-00000062"
-            ]
-        ],
+        "DisconnectChannel": [],
         "DeleteChannel": [
             "SIP/sip-proxy-00000061"
         ]
