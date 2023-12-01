@@ -34,7 +34,7 @@ func (bee BridgeEnterEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAct
 
 	var drawaction = draw.DrawAction{
 		EventType:      "BridgeEnterEvent",
-		DateTime:       bee.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
+		DateTime:       bee.DateReceived,
 		CreateChannel:  []draw.CreateChannel{},
 		ConnectChannel: [][2]string{},
 	}

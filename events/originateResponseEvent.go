@@ -30,7 +30,7 @@ func (ore OriginateResponseEvent) Draw(currentState *draw.CurrentState) (*draw.D
 
 	var drawaction = draw.DrawAction{
 		EventType:     "OriginateResponseEvent",
-		DateTime:      ore.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
+		DateTime:      ore.DateReceived,
 		CreateChannel: []draw.CreateChannel{},
 	}
 

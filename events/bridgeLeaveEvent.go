@@ -34,7 +34,7 @@ func (ble BridgeLeaveEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAct
 
 	var drawaction = draw.DrawAction{
 		EventType:         "BridgeLeaveEvent",
-		DateTime:          ble.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
+		DateTime:          ble.DateReceived,
 		CreateChannel:     []draw.CreateChannel{},
 		DisconnectChannel: [][2]string{},
 	}

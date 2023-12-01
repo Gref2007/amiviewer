@@ -15,7 +15,5 @@ func main() {
 	r := gin.Default()
 	router.SetupRoute(r)
 
-	//TODO брать из настроек
 	r.Run()
-
 }

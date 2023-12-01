@@ -30,7 +30,7 @@ func (dbe DialBeginEvent) Draw(currentState *draw.CurrentState) (*draw.DrawActio
 
 	var drawaction = draw.DrawAction{
 		EventType:      "DialBeginEvent",
-		DateTime:       dbe.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
+		DateTime:       dbe.DateReceived,
 		CreateChannel:  []draw.CreateChannel{},
 		ConnectChannel: [][2]string{},
 	}

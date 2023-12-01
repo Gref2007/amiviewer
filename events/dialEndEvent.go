@@ -29,7 +29,7 @@ func (dee DialEndEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAction,
 
 	var drawaction = draw.DrawAction{
 		EventType:      "DialEndEvent",
-		DateTime:       dee.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
+		DateTime:       dee.DateReceived,
 		CreateChannel:  []draw.CreateChannel{},
 		ConnectChannel: [][2]string{},
 	}

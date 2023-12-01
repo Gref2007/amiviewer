@@ -30,7 +30,7 @@ func (he HangupEvent) Draw(currentState *draw.CurrentState) (*draw.DrawAction, e
 
 	var draw = draw.DrawAction{
 		EventType:         "HangupEvent",
-		DateTime:          he.DateReceived, //TODO добавить настройку, чтобы можно было брать дата из timestamp
+		DateTime:          he.DateReceived,
 		DeleteChannel:     []string{},
 		DisconnectChannel: [][2]string{},
 	}
