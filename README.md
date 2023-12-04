@@ -10,13 +10,16 @@ and then
 `$ npm run  build-prod`
 Thus, you prepare on the client side.
 After this run
-`$ go get .`
+`$ go mod download`
 and finally
 `$ go run  .`
 Open a web browser at http://localhost and use it.
 
 ### Docker use
-incoming
+To build image:
+`$ docker build -t amiviewer .`
+To run container:
+`$ docker run -d -p 80:80 --name amiviewer_container  amiviewer`
 
 ### Develope
 For develop only client-side just use the Webpack's dev server. Just run :
